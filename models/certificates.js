@@ -7,7 +7,8 @@ const certificateSchema = mongoose.Schema({
     topic: { type: String, required: true },
     description: { type: String, required: true },
     verification_link: { type: String, required: true },
-    date: { type: Date, required: true }
+    date: { type: Date, required: true },
+    rating: { type: Number, default: 0 }
 })
 
 const Certificate = mongoose.model('Certificate', certificateSchema);

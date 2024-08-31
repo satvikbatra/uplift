@@ -6,7 +6,8 @@ const projectSchema = mongoose.Schema({
     description: { type: String, required: true },
     github_link: { type: String, required: true },
     tech_stack: { type: [String], required: true },
-    date: { type: Date, required: true }
+    date: { type: Date, required: true },
+    rating: { type: Number, default: 0 }
 })
 
 const Project = mongoose.model('Project', projectSchema);

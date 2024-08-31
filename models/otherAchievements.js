@@ -5,7 +5,8 @@ const otherAchievementsSchema = mongoose.Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
     date: { type: Date, required: true },
-    category: { type: String, required: false }
+    category: { type: String, required: false },
+    rating: { type: Number, default: 0 }
 })
 
 const OtherAchievements = mongoose.model('OtherAchievements', otherAchievementsSchema);
