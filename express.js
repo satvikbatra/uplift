@@ -13,11 +13,11 @@ connectDB();
 
 app.use(express.json());
 
-app.use('/routes/user', userRoutes);
-app.use('/routes/research', researchRoutes);
-app.use('/routes/seminar', seminarRoutes);
-app.use('/routes/projects', projectsRoutes);
-app.use('/routes/otherAchievements', otherAchievementsRoutes);
-app.use('/routes/certificates', certificatesRoutes);
+app.use('/user', userRoutes);
+app.use('/research', researchRoutes);
+app.use('/seminar', seminarRoutes);
+app.use('/projects', projectsRoutes);
+app.use('/otherAchievements', otherAchievementsRoutes);
+app.use('/certificates', certificatesRoutes);
 
 app.listen(PORT);
