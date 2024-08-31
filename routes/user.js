@@ -122,11 +122,11 @@ router.post('/updateDetails', userMiddleware, async (req, res) => {
             })
         }
 
-        const { profile_image, phone_number, gender, department_name, researchPapers, projects, seminars, certificates, otherAchievements, latestAcadmicFeedback } = req.body;
+        const { profile_image, phone_number, gender, department_name, role, researchPapers, projects, seminars, certificates, otherAchievements, latestAcadmicFeedback } = req.body;
 
         const updatedUser = await User.findOneAndUpdate({
             organization_email_id: req.user.organization_email_id },
-            { profile_image, phone_number, gender, department_name, researchPapers, projects, seminars, certificates, otherAchievements, latestAcadmicFeedback },
+            { profile_image, phone_number, gender, department_name, role, researchPapers, projects, seminars, certificates, otherAchievements, latestAcadmicFeedback },
             { new: true
         });
 
