@@ -2,7 +2,8 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models/user');
 const { userMainSchemaZod, userUpdatedSchemaZod } = require('../validation/user');
-const { jwtPassword } = require('../config');
+const dotenv = require('dotenv');
+dotenv.config();
 const bcrypt = require('bcryptjs');
 const { userMiddleware } = require('../middleware/userMiddleware')
 
@@ -72,7 +73,7 @@ router.post('/signin', async (req, res) => {
 
         var token = jwt.sign({
             organization_email_id: username
-        }, jwtPassword);
+        }, process.env.JWT_PASSWORD);
 
         return res.status(200).json({
             token: token

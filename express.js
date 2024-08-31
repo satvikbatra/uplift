@@ -7,6 +7,7 @@ const seminarRoutes = require('./routes/seminar');
 const projectsRoutes = require('./routes/projects');
 const otherAchievementsRoutes = require('./routes/otherAchievements');
 const certificatesRoutes = require('./routes/certificates');
+const adminRoutes = require('./routes/admin')
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -21,5 +22,6 @@ app.use('/seminar', seminarRoutes);
 app.use('/projects', projectsRoutes);
 app.use('/otherAchievements', otherAchievementsRoutes);
 app.use('/certificates', certificatesRoutes);
+app.use('/admin', adminRoutes);
 
 app.listen(PORT);

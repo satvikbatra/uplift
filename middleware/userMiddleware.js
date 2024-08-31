@@ -1,12 +1,14 @@
 const jwt = require('jsonwebtoken');
-const { jwtPassword } = require('../config');
+const dotenv = require('dotenv');
+
+dotenv.config();
 const { User } = require('../models/user');
 
 async function userMiddleware(req, res, next) {
     const token = req.headers.authorization;
     const words = token.split(" ");
     const jwtToken = words[1];
-    const decoded = jwt.verify(jwtToken, jwtPassword);
+    const decoded = jwt.verify(jwtToken, process.env.JWT_PASSWORD);
 
     const currentUser = await User.findOne({
         organization_email_id: decoded.organization_email_id
