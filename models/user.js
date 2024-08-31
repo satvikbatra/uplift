@@ -8,11 +8,12 @@ const userSchema = mongoose.Schema({
     password: { type: String, required: true },
     full_name: { type: String, required: true },
 
-    
+
     profile_image: { type: String },
     phone_number: { type: String },
     gender: { type: String },
     department_name: { type: String },
+    role: { type: String },
     researchPapers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Research' }],
     projects: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Project' }],
     seminars: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Seminar' }],

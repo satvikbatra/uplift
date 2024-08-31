@@ -13,6 +13,7 @@ const userUpdatedSchemaZod = z.object({
     phone_number: z.number().optional(),
     gender: z.string().optional(),
     department_name: z.string().optional(),
+    role: z.string().optional(),
     researchPapers: z.array(z.string().length(24)).optional(),
     projects: z.array(z.string().length(24)).optional(),
     seminars: z.array(z.string().length(24)).optional(),
