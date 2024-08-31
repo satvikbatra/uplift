@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.27.1",
+    "@google/generative-ai": "^0.17.1",
     "axios": "^1.7.6",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",

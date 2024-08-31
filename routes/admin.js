@@ -13,6 +13,7 @@ const { Certificate } = require('../models/certificates');
 const { OtherAchievements } = require('../models/otherAchievements');
 const { Project } = require('../models/projects')
 const { OpenAI } = require('openai');
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 router.post('/register', async (req, res) => {
     try {
@@ -207,6 +208,75 @@ router.get('/otherAchievements', async (req, res) => {
         })
     }
 });
+
+async function rateResearchPapers(researchPapers) {
+    const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+    const ratedPapers = [];
+
+    for (const paper of researchPapers) {
+        const prompt = `Rate this research paper:\nTitle: ${paper.title}\nDescription: ${paper.description}\nProvide a rating from 1 to 10.`;
+
+        try {
+            const result = await model.generateContent([
+                { text: prompt }
+            ]);
+
+            const responseText = result.response.text();
+
+            // Extract the rating from the response, assuming it might be in the response text
+            const ratingMatch = responseText.match(/(\d+\.\d+)/);
+            const rating = ratingMatch ? parseFloat(ratingMatch[1]) : null;
+
+            ratedPapers.push({
+                _id: paper._id,
+                rating: rating
+            });
+        } catch (error) {
+            console.error(`Error rating paper ${paper._id}:`, error.message);
+            // Assign a default rating or handle error accordingly
+            ratedPapers.push({
+                _id: paper._id,
+                rating: null  // Or some default value
+            });
+        }
+    }
+
+    return ratedPapers;
+}
+
+router.get('/researchPapersWithRatings', adminMiddleware, async (req, res) => {
+    try {
+        const researchPapers = await Research.find({}, 'user title description conferenceName');
+
+        if (researchPapers.length === 0) {
+            return res.status(404).json({
+                msg: "No research papers found. Please try again later."
+            });
+        }
+
+        const ratedPapers = await rateResearchPapers(researchPapers);
+
+        for (let i = 0; i < ratedPapers.length; i++) {
+            const paper = await Research.findById(ratedPapers[i]._id);
+            paper.rating = ratedPapers[i].rating;
+            // await paper.save();
+        }
+
+        res.status(200).json({
+            researchPapers
+        });
+
+    } catch (err) {
+        console.error('Error in /researchPapersWithRatings:', err.message);
+        res.status(500).json({
+            error: err.message
+        });
+    }
+});
+
+
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY, 
