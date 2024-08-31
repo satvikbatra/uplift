@@ -10,7 +10,7 @@ const userSchema = mongoose.Schema({
 
 
     profile_image: { type: String },
-    phone_number: { type: String },
+    phone_number: { type: Number },
     gender: { type: String },
     department_name: { type: String },
     role: { type: String },
