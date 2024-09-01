@@ -10,7 +10,7 @@ const projectSchema = mongoose.Schema({
     rating: { type: Number, default: 0 }
 })
 
-const Project = mongoose.model('Project', projectSchema);
+const Project = mongoose.models.Project || mongoose.model('Project', projectSchema);
 
 module.exports = {
     Project

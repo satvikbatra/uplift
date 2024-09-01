@@ -9,7 +9,7 @@ const otherAchievementsSchema = mongoose.Schema({
     rating: { type: Number, default: 0 }
 })
 
-const OtherAchievements = mongoose.model('OtherAchievements', otherAchievementsSchema);
+const OtherAchievements = mongoose.models.OtherAchievements || mongoose.model('OtherAchievements', otherAchievementsSchema);
 
 module.exports = {
     OtherAchievements

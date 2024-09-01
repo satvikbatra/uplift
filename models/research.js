@@ -11,7 +11,7 @@ const researchPaperSchema = mongoose.Schema({
     rating: { type: Number, default: 0 }
 })
 
-const Research = mongoose.model('Research', researchPaperSchema);
+const Research = mongoose.models.Research || mongoose.model('Research', researchPaperSchema);
 
 module.exports = {
     Research

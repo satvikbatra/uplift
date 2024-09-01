@@ -20,6 +20,7 @@ const userSchema = mongoose.Schema({
     certificates: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Certificate' }],
     otherAchievements: [{ type: mongoose.Schema.Types.ObjectID, ref: 'OtherAchievements' }],
     latestAcadmicFeedback: { type: Number },
+    averageRating: { type: Number, default: 0 },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 });

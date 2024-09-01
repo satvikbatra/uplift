@@ -10,7 +10,8 @@ const seminarSchema = mongoose.Schema({
     rating: { type: Number, default: 0 }
 })
 
-const Seminar = mongoose.model('Seminar', seminarSchema);
+const Seminar = mongoose.models.Seminar || mongoose.model('Seminar', seminarSchema);
+
 
 module.exports = {
     Seminar

@@ -11,7 +11,7 @@ const certificateSchema = mongoose.Schema({
     rating: { type: Number, default: 0 }
 })
 
-const Certificate = mongoose.model('Certificate', certificateSchema);
+const Certificate = mongoose.models.Certificate || mongoose.model('Certificate', certificateSchema);
 
 module.exports = {
     Certificate
