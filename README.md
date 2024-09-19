@@ -1,4 +1,4 @@
-# Faculty Self-Appraisal System
+# UpLift
 
 A comprehensive web application for managing and evaluating faculty achievements, including research papers, seminars, projects, certificates, and other achievements. The system also generates ratings using AI (simulated OpenAI responses) for the listed items and stores them in the database.
 
