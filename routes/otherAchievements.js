@@ -49,10 +49,10 @@ router.post('/add', userMiddleware, async(req, res) => {
 
 router.get('/', userMiddleware, async (req, res) => {
     try {
-        const achievements = await OtherAchievements.find({ user: req.user._id });
+        const otherAchievements = await OtherAchievements.find({ user: req.user._id });
 
         return res.status(200).json({
-            achievements
+            otherAchievements
         });
 
     } catch(err) {
