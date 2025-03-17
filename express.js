@@ -17,8 +17,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/user', userRoutes);
-app.use('/research', researchRoutes);
-app.use('/seminar', seminarRoutes);
+app.use('/researchPapers', researchRoutes);
+app.use('/seminars', seminarRoutes);
 app.use('/projects', projectsRoutes);
 app.use('/otherAchievements', otherAchievementsRoutes);
 app.use('/certificates', certificatesRoutes);
