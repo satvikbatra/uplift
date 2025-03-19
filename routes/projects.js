@@ -17,11 +17,11 @@ router.post('/add', userMiddleware, async(req, res) => {
             });
         }
 
-        const { topic, description, github_link, tech_stack, date } = req.body;
+        const { title, description, github_link, tech_stack, date } = req.body;
 
         const newProject = new Project({
             user: req.user._id,
-            topic, 
+            title, 
             description,
             github_link,
             tech_stack,
@@ -95,7 +95,7 @@ router.put('/:id', userMiddleware, async (req, res) => {
             });
         }
 
-        const { topic, description, github_link, tech_stack, date } = req.body;
+        const { title, description, github_link, tech_stack, date } = req.body;
         const project = await Project.findById(req.params.id);
 
         if(!project || project.user.toString() !== req.user._id.toString()) {
@@ -104,7 +104,7 @@ router.put('/:id', userMiddleware, async (req, res) => {
             });
         }
 
-        project.topic = topic || project.topic;
+        project.title = title || project.title;
         project.description = description || project.description;
         project.github_link = github_link || project.github_link;
         project.tech_stack = tech_stack || project.tech_stack;

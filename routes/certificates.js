@@ -17,13 +17,13 @@ router.post('/add', userMiddleware, async(req, res) => {
             });
         }
 
-        const { platform, field, topic, description, verification_link, date } = req.body;
+        const { platform, field, title, description, verification_link, date } = req.body;
 
         const newCertificate = new Certificate({
             user: req.user._id,
             platform, 
             field,
-            topic,
+            title,
             description,
             verification_link,
             date
@@ -96,7 +96,7 @@ router.put('/:id', userMiddleware, async (req, res) => {
             });
         }
 
-        const { platform, field, topic, description, verification_link, date } = req.body;
+        const { platform, field, title, description, verification_link, date } = req.body;
         const certificate = await Certificate.findById(req.params.id);
 
         if(!certificate || certificate.user.toString() !== req.user._id.toString()) {
@@ -107,7 +107,7 @@ router.put('/:id', userMiddleware, async (req, res) => {
 
         certificate.platform = platform || certificate.platform;
         certificate.field = field || certificate.field;
-        certificate.topic = topic || certificate.topic;
+        certificate.title = title || certificate.title;
         certificate.description = description || certificate.description;
         certificate.verification_link = verification_link || certificate.verification_link;
         certificate.date = date || certificate.date;
