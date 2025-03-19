@@ -322,7 +322,7 @@ router.get('/genarateRatings', adminMiddleware, async (req, res) => {
     try {
         const researchPapers = await Research.find({}, 'user title description conference_name');
         const certificates = await Certificate.find({}, 'user title description');
-        const seminars = await Seminar.find({}, 'user title speaker');
+        const seminars = await Seminar.find({}, 'user topic speaker');
         const otherAchievements = await OtherAchievements.find({}, 'user title description');
         const projects = await Project.find({}, 'user title description technologies');
 
@@ -341,7 +341,7 @@ router.get('/genarateRatings', adminMiddleware, async (req, res) => {
             })),
             ...seminars.map(seminar => ({
                 type: 'Seminar',
-                title: seminar.title,
+                title: seminar.topic,
                 description: `Speaker: ${seminar.speaker}`,
                 additionalInfo: ''
             })),
@@ -483,7 +483,7 @@ router.get('/generateRatings', adminMiddleware, async (req, res) => {
             })),
             ...seminars.map(seminar => ({
                 type: 'Seminar',
-                title: seminar.title,
+                title: seminar.topic,
                 description: `Speaker: ${seminar.speaker}`,
                 additionalInfo: ''
             })),

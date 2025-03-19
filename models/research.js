@@ -7,7 +7,7 @@ const researchPaperSchema = mongoose.Schema({
     certificate_of_publication: { type: String, required: true },
     verification_link: { type: String, required: true },
     conference_name: { type: String, required: true },
-    publish_date: { type: Date, default: Date.now },
+    date: { type: Date, default: Date.now },
     rating: { type: Number, default: 0 }
 })
 

@@ -50,7 +50,7 @@ router.post('/add', userMiddleware, async(req, res) => {
 
 router.get('/', userMiddleware, async (req, res) => {
     try {
-        const seminars = await Seminar.find({ user: req.user._id });
+        const seminars = await Seminar.find({ user: req.user._id }).select("title", "description");
 
         return res.status(200).json({
             seminars
@@ -136,7 +136,7 @@ router.delete('/:id', userMiddleware, async (req, res) => {
         await seminar.deleteOne();
 
         await User.findByIdAndUpdate(
-            req.params.id,
+            req.user.id,
             { $pull: { seminars: seminar._id } }
         );
 

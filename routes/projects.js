@@ -17,11 +17,11 @@ router.post('/add', userMiddleware, async(req, res) => {
             });
         }
 
-        const { title, description, github_link, tech_stack, date } = req.body;
+        const { topic, description, github_link, tech_stack, date } = req.body;
 
         const newProject = new Project({
             user: req.user._id,
-            title, 
+            topic, 
             description,
             github_link,
             tech_stack,
@@ -50,7 +50,7 @@ router.post('/add', userMiddleware, async(req, res) => {
 
 router.get('/', userMiddleware, async (req, res) => {
     try {
-        const projects = await Project.find({ user: req.user._id });
+        const projects = await Project.find({ user: req.user._id }).select("title", "description");
 
         return res.status(200).json({
             projects
@@ -95,7 +95,7 @@ router.put('/:id', userMiddleware, async (req, res) => {
             });
         }
 
-        const { title, description, github_link, tech_stack, date } = req.body;
+        const { topic, description, github_link, tech_stack, date } = req.body;
         const project = await Project.findById(req.params.id);
 
         if(!project || project.user.toString() !== req.user._id.toString()) {
@@ -104,7 +104,7 @@ router.put('/:id', userMiddleware, async (req, res) => {
             });
         }
 
-        project.title = title || project.title;
+        project.topic = topic || project.topic;
         project.description = description || project.description;
         project.github_link = github_link || project.github_link;
         project.tech_stack = tech_stack || project.tech_stack;

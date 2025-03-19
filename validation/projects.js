@@ -1,7 +1,7 @@
 const z = require('zod');
 
 const projectSchemaZod = z.object({
-    title: z.string(),
+    topic: z.string(),
     description: z.string(),
     github_link: z.string(),
     tech_stack: z.array(z.string()),
