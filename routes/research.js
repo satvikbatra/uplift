@@ -58,7 +58,7 @@ router.post('/add', userMiddleware, async (req, res) => {
 
 router.get('/', userMiddleware, async (req, res) => {
     try {
-        const researchPapers = await Research.find({ user: req.user._id }).select("title", "description");
+        const researchPapers = await Research.find({ user: req.user._id }).select("title description");
 
         return res.status(200).json({
             researchPapers
