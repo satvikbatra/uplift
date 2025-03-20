@@ -49,7 +49,7 @@ router.post('/add', userMiddleware, async(req, res) => {
 
 router.get('/', userMiddleware, async (req, res) => {
     try {
-        const otherAchievements = await OtherAchievements.find({ user: req.user._id }).select("title description");
+        const otherAchievements = await OtherAchievements.find({ user: req.user._id });
 
         return res.status(200).json({
             otherAchievements
