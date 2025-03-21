@@ -5,7 +5,43 @@ const { userMainSchemaZod, userUpdatedSchemaZod } = require('../validation/user'
 const dotenv = require('dotenv');
 dotenv.config();
 const bcrypt = require('bcryptjs');
-const { userMiddleware } = require('../middleware/userMiddleware')
+const { userMiddleware } = require('../middleware/userMiddleware');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+const { Appraisal } = require('../models/appraisal');
+
+// Configure multer storage
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        const uploadDir = path.join(__dirname, '../uploads');
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
+        }
+        cb(null, uploadDir);
+    },
+    filename: function(req, file, cb) {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const ext = path.extname(file.originalname);
+        cb(null, 'profile-' + uniqueSuffix + ext);
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) {
+        cb(null, true);
+    } else {
+        cb(new Error('Only image files are allowed!'), false);
+    }
+};
+
+const upload = multer({ 
+    storage: storage,
+    fileFilter: fileFilter,
+    limits: {
+        fileSize: 5 * 1024 * 1024
+    }
+});
 
 const router = express.Router();
 
@@ -111,7 +147,7 @@ router.get('/details', userMiddleware, async (req, res) => {
     }
 });
 
-router.post('/updateDetails', userMiddleware, async (req, res) => {
+router.post('/updateDetails', userMiddleware, upload.single('profile_image'), async (req, res) => {
     try {
         const data = req.body;
         const response = userUpdatedSchemaZod.safeParse(data);
@@ -123,11 +159,30 @@ router.post('/updateDetails', userMiddleware, async (req, res) => {
             })
         }
 
-        const { profile_image, phone_number, gender, department_name, role, researchPapers, projects, seminars, certificates, otherAchievements, latestAcadmicFeedback } = req.body;
+        const { phone_number, gender, department_name, role, researchPapers, projects, seminars, certificates, otherAchievements, latestAcadmicFeedback } = req.body;
+        
+        // Create update object
+        const updateData = {
+            phone_number, 
+            gender, 
+            department_name, 
+            role, 
+            researchPapers, 
+            projects, 
+            seminars, 
+            certificates, 
+            otherAchievements, 
+            latestAcadmicFeedback
+        };
+        
+        // Add profile image path if file was uploaded
+        if (req.file) {
+            updateData.profile_image = `/uploads/${req.file.filename}`;
+        }
 
         const updatedUser = await User.findOneAndUpdate({
             organization_email_id: req.user.organization_email_id },
-            { profile_image, phone_number, gender, department_name, role, researchPapers, projects, seminars, certificates, otherAchievements, latestAcadmicFeedback },
+            updateData,
             { new: true
         });
 
@@ -147,6 +202,35 @@ router.post('/updateDetails', userMiddleware, async (req, res) => {
         res.status(500).json({
             error: err.message
         })
+    }
+})
+
+router.post('/applyAppraisal', userMiddleware, async (req, res) => {
+    const userId = req.user._id;
+
+    try {
+      // Check if user already has a pending appraisal
+      const existingAppraisal = await Appraisal.findOne({ user: userId, status: 'pending' });
+      
+      if (existingAppraisal) {
+        return res.status(400).json({
+          msg: "You already have a pending appraisal request."
+        });
+      }
+      
+      const newAppraisal = new Appraisal({
+          user: userId
+      });
+
+      await newAppraisal.save();
+
+      res.status(200).json({
+          msg: "Appraisal applied successfully."
+      });
+    } catch (err) {
+        res.status(500).json({
+            error: err.message
+        });
     }
 })
 
