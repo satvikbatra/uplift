@@ -1,19 +1,17 @@
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
 const app = express();
-const { connectToMongoDB } = require('./db');
-const userRouter = require('./routes/user');
-const researchRouter = require('./routes/research');
-const seminarRouter = require('./routes/seminar');
-const certificateRouter = require('./routes/certificates');
-const otherAchievementsRouter = require('./routes/otherAchievements');
-const projectRouter = require('./routes/projects');
-const adminRouter = require('./routes/admin');
-const appraisalRouter = require('./routes/appraisal');
+const connectDB = require('./db');
+const userRoutes = require('./routes/user');
+const researchRoutes = require('./routes/research');
+const seminarRoutes = require('./routes/seminar');
+const projectsRoutes = require('./routes/projects');
+const otherAchievementsRoutes = require('./routes/otherAchievements');
+const certificatesRoutes = require('./routes/certificates');
+const adminRoutes = require('./routes/admin');
 const PORT = process.env.PORT || 3000;
 
-connectToMongoDB();
+connectDB();
 
 app.use(cors());
 app.use(express.json());
