@@ -9,6 +9,7 @@ const projectsRoutes = require('./routes/projects');
 const otherAchievementsRoutes = require('./routes/otherAchievements');
 const certificatesRoutes = require('./routes/certificates');
 const adminRoutes = require('./routes/admin');
+const path = require('path');
 const PORT = process.env.PORT || 3000;
 
 connectDB();
