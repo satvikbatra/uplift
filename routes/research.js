@@ -19,7 +19,7 @@ router.post('/add', userMiddleware, async (req, res) => {
             })
         }
         // console.log("1");
-        const { title, description, certificate_of_publication, verification_link, conference_name, publish_date } = req.body;
+        const { title, description, certificate_of_publication, verification_link, conference_name, date } = req.body;
 
         const newResearch = new Research({
             user: req.user._id,
@@ -28,7 +28,7 @@ router.post('/add', userMiddleware, async (req, res) => {
             certificate_of_publication,
             verification_link,
             conference_name,
-            publish_date
+            date
         });
         // console.log("1");
 
@@ -101,7 +101,7 @@ router.put('/:id', userMiddleware, async (req, res) => {
             })
         }
 
-        const { title, description, certificate_of_publication, verification_link, conference_name, publish_date } = req.body;
+        const { title, description, certificate_of_publication, verification_link, conference_name, date } = req.body;
         const researchPaper = await Research.findById(req.params.id);
 
         if(!researchPaper || researchPaper.user.toString() !== req.user._id.toString()) {
@@ -115,7 +115,7 @@ router.put('/:id', userMiddleware, async (req, res) => {
         researchPaper.certificate_of_publication = certificate_of_publication || researchPaper.certificate_of_publication;
         researchPaper.verification_link = verification_link || researchPaper.verification_link;
         researchPaper.conference_name = conference_name || researchPaper.conference_name;
-        researchPaper.publish_date = publish_date || researchPaper.publish_date;
+        researchPaper.date = date || researchPaper.date;
 
         await researchPaper.save();
 

@@ -6,7 +6,7 @@ const researchPaperSchemaZod = z.object({
     certificate_of_publication: z.string(),
     verification_link: z.string(),
     conference_name: z.string(),
-    publish_date: z.string().date()
+    date: z.string().date()
 });
 
 module.exports = { researchPaperSchemaZod };
