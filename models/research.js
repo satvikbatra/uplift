@@ -4,7 +4,7 @@ const researchPaperSchema = mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     title: { type: String, required: true },
     description: { type: String, required: true },
-    certificate_of_publication: { type: String, required: true },
+    certificate_of_publication: { type: String, default: "" },
     verification_link: { type: String, required: true },
     conference_name: { type: String, required: true },
     date: { type: Date, default: Date.now },

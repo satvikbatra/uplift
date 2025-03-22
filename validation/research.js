@@ -3,7 +3,7 @@ const z = require('zod');
 const researchPaperSchemaZod = z.object({
     title: z.string(),
     description: z.string(),
-    certificate_of_publication: z.string(),
+    certificate_of_publication: z.string().optional(),
     verification_link: z.string(),
     conference_name: z.string(),
     date: z.string().date()
