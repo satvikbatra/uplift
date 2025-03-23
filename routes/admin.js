@@ -11,7 +11,8 @@ const { Research } = require('../models/research');
 const { Seminar } = require('../models/seminar');
 const { Certificate } = require('../models/certificates');
 const { OtherAchievements } = require('../models/otherAchievements');
-const { Project } = require('../models/projects')
+const { Project } = require('../models/projects');
+const { Appraisal } = require('../models/appraisal');
 
 router.post('/register', async (req, res) => {
     try {
