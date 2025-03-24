@@ -210,7 +210,7 @@ router.get('/otherAchievements', async (req, res) => {
 
 router.get('/appraisals', adminMiddleware, async (req, res) => {
     try {
-        const appraisals = await Appraisal.find({}).populate('user', 'full_name organization_email_id department_name role');
+        const appraisals = await Appraisal.find({}).populate('user', 'full_name organization_email_id department_name role phone_number gender profile_image personal_email_id');
 
         if(!appraisals) {
             return res.status(404).json({
@@ -225,6 +225,37 @@ router.get('/appraisals', adminMiddleware, async (req, res) => {
         return res.status(500).json({
             error: err.message
         })
+    }
+});
+
+router.put('/appraisal/:id/status', adminMiddleware, async (req, res) => {
+    try {
+        const { status } = req.body;
+        
+        if (!['approved', 'rejected'].includes(status)) {
+            return res.status(400).json({
+                msg: "Invalid status. Status must be either 'approved' or 'rejected'."
+            });
+        }
+
+        const appraisal = await Appraisal.findById(req.params.id);
+
+        if (!appraisal) {
+            return res.status(404).json({
+                msg: "Appraisal not found."
+            });
+        }
+
+        appraisal.status = status;
+        await appraisal.save();
+
+        return res.status(200).json({
+            msg: `Appraisal ${status} successfully.`
+        });
+    } catch (err) {
+        return res.status(500).json({
+            error: err.message
+        });
     }
 });
 

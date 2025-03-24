@@ -232,6 +232,28 @@ router.post('/applyAppraisal', userMiddleware, async (req, res) => {
             error: err.message
         });
     }
-})
+});
+
+router.get('/appraisals', userMiddleware, async (req, res) => {
+    try {
+        const appraisals = await Appraisal.find({ user: req.user._id })
+            .populate('user', 'organization_email_id full_name department_name role')
+            .sort({ appliedAt: -1 });
+
+        if (!appraisals.length) {
+            return res.status(404).json({
+                msg: "No appraisals found."
+            });
+        }
+
+        return res.status(200).json({
+            appraisals: appraisals
+        });
+    } catch (err) {
+        return res.status(500).json({
+            error: err.message
+        });
+    }
+});
 
 module.exports = router;
